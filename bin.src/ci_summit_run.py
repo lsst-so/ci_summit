@@ -5,6 +5,7 @@ from lsst.ci.builder.commands import (
     CreateButler,
     RegisterInstrument,
     WriteCuratedCalibrations,
+    ButlerImport,
     IngestRaws,
     DefineVisits,
     TestRunner,
@@ -27,6 +28,12 @@ class SummitRegisterInstrument(RegisterInstrument):
 @ciRunner.register("write_calibrations", index_command := index_command + 1)
 class SummitWriteCuratedCalibrations(WriteCuratedCalibrations):
     instrumentName = INSTRUMENT_NAME
+
+
+@ciRunner.register("ingest_calibrations", index_command := index_command + 1)
+class SummitIngestCalibrations(ButlerImport):
+    dataLocation = os.path.join(TESTDATA_DIR, "calib")
+    importFileLocation = os.path.join(TESTDATA_DIR, "calib", "export.yaml")
 
 
 @ciRunner.register("ingest", index_command := index_command + 1)
